@@ -19,3 +19,28 @@
 // function as expected. There are many ways to accomplish this task, but you will need
 // to at minimum add listeners to each link and toggle the display of the tab contents.
 // Hint: display: none; hides an element, and display: block; will bring it
+const balloon = document.getElementById("balloon");
+let currentSize = 16; // Starting size in pixels
+let exploded = false; // To track whether the balloon has exploded
+
+document.addEventListener("keydown", (event) => {
+    if (exploded) return; // Stop further actions if balloon has exploded
+
+    if (event.key === "ArrowUp") {
+        currentSize *= 1.1; // Increase size by 10%
+        if (currentSize >= 100) { // Explosion threshold
+            balloon.textContent = "💥"; // Replace with explosion emoji
+            balloon.style.fontSize = "48px"; // Set a standard size for explosion
+            exploded = true; // Mark as exploded
+        } else {
+            balloon.style.fontSize = `${currentSize}px`; // Update size
+        }
+        event.preventDefault();
+    } else if (event.key === "ArrowDown") {
+        currentSize *= 0.9; // Decrease size by 10%
+        if (currentSize >= 16) { // Ensure size doesn't shrink below the starting size
+            balloon.style.fontSize = `${currentSize}px`; // Update size
+        }
+        event.preventDefault();
+    }
+});
