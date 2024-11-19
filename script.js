@@ -19,6 +19,7 @@
 // function as expected. There are many ways to accomplish this task, but you will need
 // to at minimum add listeners to each link and toggle the display of the tab contents.
 // Hint: display: none; hides an element, and display: block; will bring it
+// 1. Balloon Inflation and Explosion
 const balloon = document.getElementById("balloon");
 let currentSize = 16; // Starting size in pixels
 let exploded = false; // To track whether the balloon has exploded
@@ -43,4 +44,27 @@ document.addEventListener("keydown", (event) => {
         }
         event.preventDefault();
     }
+});
+
+// 2. Tabbed Layout
+const tabs = document.querySelectorAll("#tabbed-layout ul li a");
+const contents = document.querySelectorAll("#tabbed-contents > div");
+
+// Initialize: Show only the first tab's content
+contents.forEach((content, index) => {
+    content.style.display = index === 0 ? "block" : "none"; // First tab visible, others hidden
+});
+
+tabs.forEach((tab, index) => {
+    tab.addEventListener("click", (event) => {
+        event.preventDefault(); // Prevent default link behavior
+
+        // Hide all tab contents and reset tab styles
+        contents.forEach((content) => (content.style.display = "none"));
+        tabs.forEach((tab) => tab.classList.remove("active"));
+
+        // Show the selected tab's content and set it as active
+        contents[index].style.display = "block";
+        tab.classList.add("active");
+    });
 });
